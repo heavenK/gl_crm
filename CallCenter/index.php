@@ -8,7 +8,7 @@ define('APP_PATH','./Call/');
 
 define('THINK_PATH','./ThinkPHP/');
 
-define('SUGARCRM','http://localhost/sugar652/');
+define('SUGARCRM','http://crm.gulianlvyou.com/');
 
 define('APP_DEBUG', true);		// Use debug 
 
