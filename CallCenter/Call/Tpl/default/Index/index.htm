@@ -1,0 +1,86 @@
+<extend name="base" />
+
+<block name="title"><title><{$account['name']}></title></block>
+
+<block name="links"></block>
+
+<block name="content">
+<style>
+	.detail tr td	{border-bottom: 1px solid;padding: 5px 6px 5px 6px; vertical-align: top;border-color: #cbdae6;color: #000000; font-size:12px;}
+	.name	{ background-color:#f6f6f6; border-color:#CBDAE6; text-align: right;}
+</style>
+	<div class="title">
+    	<h2><php>if($account){</php><{$account['name']}><php>}elseif($leads){</php><{$leads['first_name']}>&nbsp;<{$leads['last_name']}><php>}else{</php><php>}</php>(<{$_GET['num']}>)</h2>    
+    </div>
+	<div class="detail">
+    	<php>if($account){</php>
+    	<h4>客户信息</h4>  
+    	<table style=" width:1000px;" cellspacing=0>
+        	<tr>
+        		<td width="12.5%" class="name">名称:</td><td width="37.5%"><{$account['name']}></td><td width="12.5%" class="name">客户电话:</td><td width="37.5%"><{$account['phone_office']}></td>
+            </tr>
+            <tr>
+                <td width="12.5%" class="name">网站:</td><td width="37.5%"><{$account['website']}></td><td width="12.5%" class="name">传真:</td><td width="37.5%"><{$account['phone_fax']}></td>
+            </tr>
+            <tr>
+                <td width="12.5%" class="name">付款地址:</td><td width="37.5%"><{$account['billing_address_street']}>&nbsp;<{$account['billing_address_city']}>&nbsp;<{$account['billing_address_state']}>&nbsp;<{$account['billing_address_postalcode']}>&nbsp;<{$account['billing_address_country']}></td><td width="12.5%" class="name">收货地址:</td><td width="37.5%"><{$account['shipping_address_street']}>&nbsp;<{$account['shipping_address_city']}>&nbsp;<{$account['shipping_address_state']}>&nbsp;<{$account['shipping_address_postalcode']}>&nbsp;<{$account['shipping_address_country']}></td>
+            </tr>
+            <tr>
+                <td width="12.5%" class="name">说明:</td><td width="37.5%"><{$account['description']}></td><td></td><td width="37.5%"></td>
+            </tr>
+        </table>
+        <php>}elseif($leads){</php>
+        <h4>潜在客户信息</h4>  
+        <table style=" width:300px;" cellspacing=0>
+        	<tr>
+        		<td><a href="<{$conver_url}>" target="_blank">转换成客户群体</a></td>
+            </tr>
+        </table>
+        
+        <table style=" width:1000px;" cellspacing=0>
+        	<tr>
+        		<td width="12.5%" class="name">名称:</td><td width="37.5%"><{$leads['first_name']}>&nbsp;<{$leads['last_name']}></td><td width="12.5%" class="name">客户电话:</td><td width="37.5%"><{$leads['phone_work']}></td>
+            </tr>
+            <tr>
+                <td width="12.5%" class="name">网站:</td><td width="37.5%"><{$leads['website']}></td><td width="12.5%" class="name">传真:</td><td width="37.5%"><{$leads['phone_fax']}></td>
+            </tr>
+            <tr>
+                <td width="12.5%" class="name">付款地址:</td><td width="37.5%"><{$leads['billing_address_street']}>&nbsp;<{$leads['billing_address_city']}>&nbsp;<{$leads['billing_address_state']}>&nbsp;<{$leads['billing_address_postalcode']}>&nbsp;<{$leads['billing_address_country']}></td><td width="12.5%" class="name">收货地址:</td><td width="37.5%"><{$leads['shipping_address_street']}>&nbsp;<{$leads['shipping_address_city']}>&nbsp;<{$leads['shipping_address_state']}>&nbsp;<{$leads['shipping_address_postalcode']}>&nbsp;<{$leads['shipping_address_country']}></td>
+            </tr>
+        </table>
+        <php>}else{</php>
+        <h4>来电人暂时不是客户群体</h4>  
+        <table style=" width:300px;" cellspacing=0>
+        	<tr>
+        		<td width="50%" class="name"><a href="<{$account_url}>" target="_blank">加入客户群体</a></td><td width="50%"><a href="<{$leads_url}>" target="_blank">加入潜在客户群体</a></td>
+            </tr>
+        </table>
+        <php>}</php>
+    </div>
+
+	<div class="detail">
+    	<h4>旅游记录</h4>  
+        <span style="font-size:12px">共出行<{$xianlu_count}>次，最近出行记录</span>
+    	<table style=" width:1000px;" cellspacing=0>
+        	<volist name="xianlus" id="xianlu">
+        	<tr>
+        		<td width="12.5%" class="name">产品名称:</td><td width="87.5%"><{$xianlu['title']}></td>
+            </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="detail">
+    	<h4>来电记录</h4> 
+        <span style="font-size:12px">共来电<{$cdr_sum}>次，最近来电时间</span>
+    	<table style=" width:1000px;" cellspacing=0>
+        	<volist name="cdr" id="telnum">
+        	<tr>
+        		<td width="12.5%" class="name">来电时间:</td><td width="27.5%"><{$telnum['calldate']}></td><td width="10%" class="name">接线分机:</td><td width="20%"><{$telnum['dst']}></td><td width="10%" class="name">应答情况:</td><td width="20%"><{$telnum['disposition']}></td>
+            </tr>
+            </volist>
+        </table>
+    </div>
+
+</block>
+
+<block name="footer"></block>
