@@ -9,8 +9,8 @@ return array(
 	'DB_PORT'   => 3306, 
 	'DB_PREFIX' => '', 	
 	
-	//'DB_CONNECT2' => 'mysql://root:@localhost/myerp',
-	//'DB_CONNECT3' => 'mysql://user1:123@192.168.0.240/asteriskcdrdb'
+	'DB_CONNECT2' => 'mysql://root:@localhost/myerp',
+	'DB_CONNECT3' => 'mysql://gl_crm:gl_CRM123!\@#@lyhh0001.vicp.cc/asteriskcdrdb'
 	
 );
 ?>
