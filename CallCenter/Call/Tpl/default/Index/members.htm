@@ -1,0 +1,26 @@
+<extend name="base" />
+
+<block name="title"><title><{$account['name']}></title></block>
+
+<block name="links"></block>
+
+<block name="content">
+<style>
+	.detail tr td	{border-bottom: 1px solid;padding: 5px 6px 5px 6px; vertical-align: top;border-color: #cbdae6;color: #000000; font-size:12px;}
+	.name	{ background-color:#f6f6f6; border-color:#CBDAE6; text-align: right;}
+</style>
+<div class="detail"> 
+    <table style=" width:500px;" cellspacing=0>
+    	<tr>
+        	<td width="30%" class="name">姓名</td><td width="40%">电话号码</td><td width="30%" class="name">出行次数</td>
+        </tr>
+        <volist name="members" id="member">
+        <tr>
+            <td width="30%" class="name"><{$member['name']}></td><td width="40%"><a href="__APP__/Index/index/num/<{$member['telnum']}>" target="_blank"><{$member['telnum']}></a></td><td width="30%" class="name"><{$member['num']}></td>
+        </tr>
+        </volist>
+    </table>
+</div>       
+</block>
+
+<block name="footer"></block>

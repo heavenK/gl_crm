@@ -2,7 +2,7 @@
 class IndexAction extends Action {
 
 	public function index(){
-		
+				
 		$Account = M("Accounts");
 		
 		$where['phone_office'] = array('LIKE','%'.$_REQUEST['num'].'%');
@@ -60,7 +60,6 @@ class IndexAction extends Action {
 		$cdr_sum = $Cdr->where($where)->count();
 		$cdr = $Cdr->where($where)->order("calldate desc")->limit(0,10)->select();
 
-
 		$this->assign('account',$account);
 		
 		$this->assign('xianlu_count',$xianlu_count);
@@ -70,147 +69,49 @@ class IndexAction extends Action {
 		$this->display();
 	}
 
-
-
-
-
-
-
-
-
-
-
-    public function profile() {
-        $this->checkUser();
-        $User	 =	 M("User");
-        $vo	=	$User->getById($_SESSION[C('USER_AUTH_KEY')]);
-        $this->assign('vo',$vo);
-        $this->display();
-    }
-
-    public function verify() {
-        $type	 =	 isset($_GET['type'])?$_GET['type']:'gif';
-        import("@.ORG.Util.Image");
-        Image::buildImageVerify(4,1,$type);
-    }
-	
-	
-	public function wordTOpdf() {
+	public function members(){
 		
-		set_time_limit(0); 
-
+		$Youke = M('Datacd','myerp_','DB_CONNECT2');
 		
-        $pid	 =	 isset($_GET['pid'])?$this->_GET('pid'):$this->error('无法转换!');
-		$Pro	 =	 M("Project");
-        $vo	=	$Pro->getByPid($pid);
+		$where['telnum'] = array('BETWEEN',array('13000000000','19000000000'));
 		
-		$doc_file = WEB_ROOT."/Public/Uploads/".$vo['attachment']; 
+		$infos = $Youke->where($where)->field("name,dingdanID,telnum")->order("telnum desc")->select();
 		
-		$pdf_path = explode('/',$vo['attachment']);
-		
-		$output_file = WEB_ROOT."/Public/Uploads/".$pdf_path['0']."/".$pdf_path['1']."/"; 
-		
-		exec("unoconv -f pdf -o ".$output_file." ".$doc_file);
-		
-		// windows 用的转换过程
-		/*
-		$doc_file = "file:///".WEB_ROOT."/Public/Uploads/".$vo['attachment']; 
-		$output_file = "file:///".WEB_ROOT."/Public/Uploads/".$vo['attachment'].".pdf"; 
-		if(!word2pdf($doc_file,$output_file)) $this->error("您的附件不是doc形式，无法转换！");
-		
-		*/
-		//$this->success('转换成功', "/Public/Uploads/".$vo['attachment'].".pdf");
-		
-		//php 强制下载PDF文件
-		header('Content-type: application/pdf');
-		header('Content-Disposition: attachment; filename='.$vo['sn']);
-		
-		$pdf_file = str_replace(".doc",".pdf",$vo['attachment']);
-		
-		readfile(WEB_ROOT."/Public/Uploads/".$pdf_file);
-    }
-
-    // 修改资料
-    public function change() {
-        $this->checkUser();
-        $User	 =	 D("User");
-        if(!$User->create()) {
-            $this->error($User->getError());
-        }
-        $result	=	$User->save();
-        if(false !== $result) {
-            $this->success('资料修改成功！');
-        }else{
-            $this->error('资料修改失败!');
-        }
-    }
-	
-	//	人员状态
-	public function goOut() {
-		$this->checkUser();
-        $User	 =	 D("User_status");
-		
-		$condition['username'] = $_SESSION['loginUserName'];
-		$res = $User->where($condition)->setField('active',0);
-		
-		if($this->_request('type') == 2){
-			if ($res !== false) { //保存成功
-	
-				$this->success('修改成功！',cookie('_currentUrl_'));
-			} else {
-				//失败提示
-				$this->error('修改失败!');
+		foreach($infos as $key => $val){
+			if(!preg_match("/^1\d{2}\d{8}$/",$val['telnum'])) continue; 
+			$youke[$val['telnum']]['name'] = $val['name'];
+			if($youke[$val['telnum']]['dingdanID'] == '') {
+				$youke[$val['telnum']]['dingdanID'] = $val['dingdanID'];
+				$youke[$val['telnum']]['num']++;
 			}
-			exit;
+			elseif(strstr($youke[$val['telnum']]['dingdanID'] , $val['dingdanID'])) continue;
+			else {
+				$youke[$val['telnum']]['dingdanID'] .= ','.$val['dingdanID'];
+				$youke[$val['telnum']]['num']++;
+			}
 		}
 		
-		$data['reason'] = $this->_request('reason');
-		
-		$data = $User->create($data);
-		
-        if (false === $data) {
-            $this->error($User->getError());
-        }
-		
-		//保存当前数据对象
-        $list = $User->add($data);
-		
-		if ($list !== false) { //保存成功
-
-            $this->success('修改成功！',cookie('_currentUrl_'));
-        } else {
-            //失败提示
-            $this->error('修改失败!');
-        }
-    }
-	
-	//	实时消息
-	public function getNews(){
-		//	我的消息
-		$Mes = D("Messages");
-		$m_where['roleid&kind'] =array(array("IN", $_SESSION['roleId']),"verify",'_multi'=>true);
-		$m_where['kind&uid'] =array("confirm",$_SESSION['authId'],'_multi'=>true);
-		$m_where['_logic'] = 'or';
-		$m_condition['_complex'] = $m_where;
-
-		$my_ver_count = $Mes->where($m_condition)->count();
-		$my_ver_pros = $Mes->where($m_condition)->order("`pubdate` desc")->limit(0,20)->select();
-		
-		$new_pros = $Mes->where($m_condition)->order("`pubdate` desc")->find();
-		
-		if(!$new_pros)	{
-			echo 2;
-			return;
+		$i = 0;
+		foreach($youke as $key => $val){
+			$members[$i]['telnum'] = $key;
+			$members[$i]['dingdanID'] = $val['dingdanID'];
+			$members[$i]['name'] = $val['name'];
+			$members[$i]['num'] = $val['num'];
+			$j = $i;
+			
+			while($j > 0 && $members[$j]['num'] > $members[$j-1]['num'] ) {
+				$mid = $members[$j];
+				$members[$j] = $members[$j-1];	
+				$members[$j-1] = $mid;
+				$j--;
+				
+			}
+			$i++;
 		}
 		
-/*		if(($this->_request('flag') > 0 && $this->_request('flag') >= $new_pros['pubdate']))	{
-			return false;
-		}*/
-		
-		$this->assign('my_ver_count', $my_ver_count);
-		$this->assign('my_ver_pros', $my_ver_pros);
-		
-		if($this->_request('type') == 'getNews')	$this->display();	
-		
+		$this->assign('members',$members);
+		$this->display();
 	}
+
+
 }
