@@ -9,18 +9,83 @@
 	.detail tr td	{border-bottom: 1px solid;padding: 5px 6px 5px 6px; vertical-align: top;border-color: #cbdae6;color: #000000; font-size:12px;}
 	.name	{ background-color:#f6f6f6; border-color:#CBDAE6; text-align: right;}
 </style>
+<script>
+$(document).ready(function(){
+  $("#selectAll").click(function(e) {
+        $("input[type=checkbox]").attr('checked',$(this).attr('checked'));
+    });
+	
+	
+});
+
+function sendMes(){
+	/*
+	var smsname = $("input[name=smsname]").val();
+	var smspwd = $("input[name=smspwd]").val();
+	var content = $("#content").val();
+	var url = "";
+	var i = 0;
+	var j = 0;
+	var str = new Array();
+	
+	$('input[name="telnum"]:checked').each(function(){  
+		if(i == 0) str[j] = $(this).val();
+		else	str[j] += "," + $(this).val();
+		i++;
+		if(i>99) {
+			j++;
+			i=0;
+		}
+	});
+	for(var k=0; k<j+1; k++){
+		url = "apitype=2&smsname="+smsname+"&smspwd="+smspwd+"&mobile="+str[k]+"&content="+content
+		
+		$.ajax({
+		   type: "POST",
+		   url: "http://dx.91qxt.com/api/api.asp",
+		   data: url,
+		   success: function(msg){
+		   }
+		});
+		
+		
+		
+	}
+	alert("全部发送完成，共"+((k-1)*100+i)+"条！");
+	*/
+}
+	
+
+</script>
+
+<div class="detail"> 
+<form action="__APP__/Index/sendMes" method="post" target="_blank">
+    <table style=" width:1000px;" cellspacing=0>
+        <tr>
+            <td width="12.5%" class="name">账号:</td><td width="37.5%"><input type="text" name="smsname" /> </td><td width="12.5%" class="name">密码:</td><td width="37.5%"><input type="password" name="smspwd" /></td>
+        </tr>
+        <tr>
+            <td width="12.5%" class="name">内容:</td><td width="37.5%"><textarea rows="6" cols="40" id="content" name="content"></textarea></td><td></td><td width="37.5%"></td>
+        </tr>
+    </table>
+    <input type="submit" name="submit" />
+	        
+</div>  
+<p>
 <div class="detail"> 
     <table style=" width:500px;" cellspacing=0>
     	<tr>
-        	<td width="20%">序号</td><td width="20%" class="name">姓名</td><td width="20%">电话号码</td><td width="20%" class="name">出行次数</td><td width="20%">总消费</td>
+        	<td width="20%">序号<input type="checkbox" id="selectAll"/></td><td width="20%" class="name">姓名</td><td width="20%">电话号码</td><td width="20%" class="name">出行次数</td><td width="20%">总消费</td>
         </tr>
+        
         <volist name="members" id="member">
         <tr>
-            <td width="20%"><{$key+1}></td><td width="20%" class="name"><{$member['name']}></td><td width="20%"><a href="__APP__/Index/index/num/<{$member['telnum']}>" target="_blank"><{$member['telnum']}></a></td><td width="20%" class="name"><{$member['num']}></td><td width="20%"><{$member['price']}></td>
+            <td width="20%"><{$key+1}><input type="checkbox" name="telnum[]" value="<{$member['telnum']}>"/></td><td width="20%" class="name"><{$member['name']}></td><td width="20%"><a href="__APP__/Index/index/num/<{$member['telnum']}>" target="_blank"><{$member['telnum']}></a></td><td width="20%" class="name"><{$member['num']}></td><td width="20%"><{$member['price']}></td>
         </tr>
         </volist>
     </table>
-</div>       
+</div>    
+</form>
 </block>
 
 <block name="footer"></block>

@@ -116,5 +116,42 @@ class IndexAction extends Action {
 		$this->display();
 	}
 
+	public function sendMes(){
+		
+		$tel_str = array();
+		$i = 0;
+		$j = 0;
+		
+		foreach($_REQUEST['telnum'] as $key => $val){
+			if($i == 0) $tel_str[$j] = $val;
+			else	$tel_str[$j] .= "," . $val;
+			
+			$i++;
+			if($i>99) {
+				$j++;
+				$i=0;
+			}
+		}
+		
+		for($k=0; $k<$j+1; $k++){
+			
+			$content = iconv("utf-8","gb2312",$_REQUEST['content']);
+			$data = array ('apitype' => '2','smsname' => $_REQUEST['smsname'],'smspwd' => $_REQUEST['smspwd'],'mobile' => $tel_str[$k],'content' => $content);
+			
+			$data = http_build_query($data);
+			$opts = array (
+			'http' => array (
+			'method' => 'POST',
+			'header'=> "Content-type: application/x-www-form-urlencoded\r\n" .
+			"Content-Length: " . strlen($data) . "\r\n",
+			'content' => $data
+			)
+			);
+			$context = stream_context_create($opts);
+			$html = file_get_contents('http://dx.91qxt.com/api/api.asp', false, $context);
+			echo $html."<br/>";
+		}
+	}
+	 
 
 }
