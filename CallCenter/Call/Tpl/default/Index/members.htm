@@ -12,11 +12,11 @@
 <div class="detail"> 
     <table style=" width:500px;" cellspacing=0>
     	<tr>
-        	<td width="25%" class="name">姓名</td><td width="25%">电话号码</td><td width="25%" class="name">出行次数</td><td width="25%">总消费</td>
+        	<td width="20%">序号</td><td width="20%" class="name">姓名</td><td width="20%">电话号码</td><td width="20%" class="name">出行次数</td><td width="20%">总消费</td>
         </tr>
         <volist name="members" id="member">
         <tr>
-            <td width="25%" class="name"><{$member['name']}></td><td width="25%"><a href="__APP__/Index/index/num/<{$member['telnum']}>" target="_blank"><{$member['telnum']}></a></td><td width="25%" class="name"><{$member['num']}></td><td width="25%"><{$member['price']}></td>
+            <td width="20%"><{$key+1}></td><td width="20%" class="name"><{$member['name']}></td><td width="20%"><a href="__APP__/Index/index/num/<{$member['telnum']}>" target="_blank"><{$member['telnum']}></a></td><td width="20%" class="name"><{$member['num']}></td><td width="20%"><{$member['price']}></td>
         </tr>
         </volist>
     </table>
