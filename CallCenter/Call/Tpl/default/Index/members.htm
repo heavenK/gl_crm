@@ -101,13 +101,13 @@ function sendMes(){
     <table cellpadding="0" cellspacing="0" border="0" width="100%" class="display" id="example">
     	<thead>
             <tr>
-                <th width="20%">序号<input type="checkbox" id="selectAll"/></th><th width="20%" class="name">姓名</th><th width="20%">电话号码</th><th width="20%" class="name">出行次数</th><th id="order_fee" width="20%">总消费</th>
+                <th width="20%" align="center"><input type="checkbox" id="selectAll"/></th><th width="20%" class="name">姓名</th><th width="20%">电话号码</th><th width="20%" class="name">出行次数</th><th id="order_fee" width="20%">总消费</th>
             </tr>
         </thead>
         <tbody>
             <volist name="members" id="member">
             <tr>
-                <td width="20%"><{$key+1}><input type="checkbox" class="check" name="telnum[]" value="<{$member['telnum']}>"/></td><td width="20%" class="name"><{$member['name']}></td><td width="20%"><a href="__APP__/Index/index/num/<{$member['telnum']}>" target="_blank"><{$member['telnum']}></a></td><td width="20%" class="name"><{$member['num']}></td><td class="fee" width="20%"><{$member['price']}></td>
+                <td width="20%" align="center"><input type="checkbox" class="check" name="telnum[]" value="<{$member['telnum']}>"/></td><td width="20%" class="name"><{$member['name']}></td><td width="20%"><a href="__APP__/Index/index/num/<{$member['telnum']}>" target="_blank"><{$member['telnum']}></a></td><td width="20%" class="name"><{$member['num']}></td><td class="fee" width="20%"><{$member['price']}></td>
             </tr>
             </volist>
         </tbody>
