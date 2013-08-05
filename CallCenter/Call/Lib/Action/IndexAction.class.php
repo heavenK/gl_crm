@@ -95,6 +95,7 @@ class IndexAction extends Action {
 			}
 		}
 		
+		
 		$i = 0;
 		foreach($youke as $key => $val){
 			$members[$i]['telnum'] = $key;
@@ -104,13 +105,13 @@ class IndexAction extends Action {
 			$members[$i]['num'] = $val['num'];
 			$j = $i;
 			
-			while($j > 0 && $members[$j]['num'] > $members[$j-1]['num'] ) {
+			/*while($j > 0 && $members[$j]['num'] > $members[$j-1]['num'] ) {
 				$mid = $members[$j];
 				$members[$j] = $members[$j-1];	
 				$members[$j-1] = $mid;
 				$j--;
 				
-			}
+			}*/
 			$i++;
 		}
 		
