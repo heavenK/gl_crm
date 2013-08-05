@@ -9,13 +9,31 @@
 	.detail tr td	{border-bottom: 1px solid;padding: 5px 6px 5px 6px; vertical-align: top;border-color: #cbdae6;color: #000000; font-size:12px;}
 	.name	{ background-color:#f6f6f6; border-color:#CBDAE6; text-align: right;}
 </style>
+<style type="text/css" title="currentStyle">
+	@import "<{:__PUBLIC__}>/css/demo_page.css";
+	@import "<{:__PUBLIC__}>/css/demo_table_jui.css";
+	@import "<{:__PUBLIC__}>/css/jquery-ui-1.8.4.custom.css";
+</style>
+<script type="text/javascript" language="javascript" src="<{:__PUBLIC__}>/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="<{:__PUBLIC__}>/js/jquery.dataTables.js"></script>
+
 <script>
 $(document).ready(function(){
-  $("#selectAll").click(function(e) {
-        $("input[type=checkbox]").attr('checked',$(this).attr('checked'));
-    });
+	$("#selectAll").click(function(e) {
+		if($(this).attr('checked') == 'checked')	$(".check").attr('checked',$(this).attr('checked'));
+        else $(".check").removeAttr('checked');
+	});
 	
-	
+	oTable = $('#example').dataTable({
+			"bJQueryUI": true,
+			"bPaginate": false,
+			"aoColumnDefs": [
+			  { "bSortable": false, "aTargets": [ 0 ] }
+			],
+			"aaSorting": [[ 3, "desc" ]],
+			"sPaginationType": "full_numbers"
+		});
+		
 });
 
 function sendMes(){
@@ -72,20 +90,25 @@ function sendMes(){
 	        
 </div>  
 <p>
-<div class="detail"> 
-    <table style=" width:500px;" cellspacing=0>
-    	<tr>
-        	<td width="20%">序号<input type="checkbox" id="selectAll"/></td><td width="20%" class="name">姓名</td><td width="20%">电话号码</td><td width="20%" class="name">出行次数</td><td width="20%">总消费</td>
-        </tr>
-        
-        <volist name="members" id="member">
-        <tr>
-            <td width="20%"><{$key+1}><input type="checkbox" name="telnum[]" value="<{$member['telnum']}>"/></td><td width="20%" class="name"><{$member['name']}></td><td width="20%"><a href="__APP__/Index/index/num/<{$member['telnum']}>" target="_blank"><{$member['telnum']}></a></td><td width="20%" class="name"><{$member['num']}></td><td width="20%"><{$member['price']}></td>
-        </tr>
-        </volist>
+<div class="detail" style="width:600px"> 
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="display" id="example">
+    	<thead>
+            <tr>
+                <th width="20%">序号<input type="checkbox" id="selectAll"/></th><th width="20%" class="name">姓名</th><th width="20%">电话号码</th><th width="20%" class="name">出行次数</th><th id="order_fee" width="20%">总消费</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="members" id="member">
+            <tr>
+                <td width="20%"><{$key+1}><input type="checkbox" class="check" name="telnum[]" value="<{$member['telnum']}>"/></td><td width="20%" class="name"><{$member['name']}></td><td width="20%"><a href="__APP__/Index/index/num/<{$member['telnum']}>" target="_blank"><{$member['telnum']}></a></td><td width="20%" class="name"><{$member['num']}></td><td class="fee" width="20%"><{$member['price']}></td>
+            </tr>
+            </volist>
+        </tbody>
     </table>
 </div>    
 </form>
+
+
 </block>
 
 <block name="footer"></block>
