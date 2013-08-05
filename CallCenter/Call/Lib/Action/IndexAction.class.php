@@ -71,6 +71,8 @@ class IndexAction extends Action {
 
 	public function members(){
 		
+		if(!$_SESSION["authenticated_user_id"])	$this->error('请先登录',SUGARCRM.'index.php');
+		
 		$Youke = M('Datacd','myerp_','DB_CONNECT2');
 		
 		$where['telnum'] = array('BETWEEN',array('13000000000','19000000000'));
@@ -117,6 +119,8 @@ class IndexAction extends Action {
 	}
 
 	public function sendMes(){
+		
+		if(!$_SESSION["authenticated_user_id"])	$this->error('请先登录',SUGARCRM.'index.php');
 		
 		$tel_str = array();
 		$i = 0;
