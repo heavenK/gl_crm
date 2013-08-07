@@ -24,6 +24,11 @@ $(document).ready(function(){
         else $(".check").removeAttr('checked');
 	});
 	
+	$("#min_money,#max_money").change(function(e) {
+		fetch();
+	});
+
+	
 	oTable = $('#example').dataTable({
 			"bJQueryUI": true,
 			"bPaginate": false,
@@ -40,8 +45,20 @@ $(document).ready(function(){
 			"aaSorting": [[ 3, "desc" ]],
 			"sPaginationType": "full_numbers"
 		});
-		
 });
+
+function fetch(){
+	$(".fee").each(function(index, element) {
+			var min_val = $("#min_money").val();
+			var max_val = $("#max_money").val();
+			var val = parseInt($(this).text());
+			
+            if((min_val && val<min_val) ||(max_val && val>max_val)) {
+				$(this).parent().remove();
+				//alert(parseInt($(this).text()));
+			}
+        });
+}
 
 function sendMes(){
 	/*
@@ -93,10 +110,12 @@ function sendMes(){
             <td width="12.5%" class="name">内容:</td><td width="37.5%"><textarea rows="6" cols="40" id="content" name="content"></textarea></td><td></td><td width="37.5%"></td>
         </tr>
     </table>
-    <input type="submit" name="submit" />
+    <input type="button" name="submit" value="提交" />
 	        
 </div>  
 <p>
+消费区间：
+<input type="text" id="min_money" name="money" />-<input type="text" id="max_money" name="money" />
 <div class="detail" style="width:600px"> 
     <table cellpadding="0" cellspacing="0" border="0" width="100%" class="display" id="example">
     	<thead>
