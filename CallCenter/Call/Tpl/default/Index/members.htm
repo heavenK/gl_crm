@@ -61,7 +61,7 @@ function fetch(){
 }
 
 function sendMes(){
-	/*
+	
 	var smsname = $("input[name=smsname]").val();
 	var smspwd = $("input[name=smspwd]").val();
 	var content = $("#content").val();
@@ -94,7 +94,7 @@ function sendMes(){
 		
 	}
 	alert("全部发送完成，共"+((k-1)*100+i)+"条！");
-	*/
+	
 }
 	
 
@@ -110,7 +110,7 @@ function sendMes(){
             <td width="12.5%" class="name">内容:</td><td width="37.5%"><textarea rows="6" cols="40" id="content" name="content"></textarea></td><td></td><td width="37.5%"></td>
         </tr>
     </table>
-    <input type="submit" name="submit" value="提交" />
+    <input type="button" onclick="sendMes();" name="submit" value="提交" />
 	        
 </div>  
 <p>
