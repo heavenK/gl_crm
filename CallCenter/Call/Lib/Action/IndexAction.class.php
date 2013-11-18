@@ -138,6 +138,8 @@ class IndexAction extends Action {
 			}
 		}
 		
+		dump($_REQUEST);
+		exit;
 		for($k=0; $k<$j+1; $k++){
 			
 			$content = iconv("utf-8","gb2312",$_REQUEST['content']);
