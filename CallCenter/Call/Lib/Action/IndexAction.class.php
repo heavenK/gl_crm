@@ -77,11 +77,16 @@ class IndexAction extends Action {
 		
 		$where['telnum'] = array('BETWEEN',array('13000000000','19000000000'));
 		
-		$infos = $Youke->where($where)->field("name,price,dingdanID,telnum")->order("telnum desc")->select();
+		$infos = $Youke->where($where)->order("telnum desc")->select();
+		
+		
 		
 		foreach($infos as $key => $val){
 			if(!preg_match("/^1\d{2}\d{8}$/",$val['telnum'])) continue; 
 			$youke[$val['telnum']]['name'] = $val['name'];
+			$youke[$val['telnum']]['sex'] = $val['sex'];
+			$youke[$val['telnum']]['zhengjiantype'] = $val['zhengjiantype'];
+			$youke[$val['telnum']]['zhengjianhaoma'] = $val['zhengjianhaoma'];
 			if($youke[$val['telnum']]['dingdanID'] == '') {
 				$youke[$val['telnum']]['dingdanID'] = $val['dingdanID'];
 				$youke[$val['telnum']]['price'] = $val['price'];
@@ -101,6 +106,9 @@ class IndexAction extends Action {
 			$members[$i]['telnum'] = $key;
 			$members[$i]['dingdanID'] = $val['dingdanID'];
 			$members[$i]['name'] = $val['name'];
+			$members[$i]['sex'] = $val['sex'];
+			$members[$i]['zhengjiantype'] = $val['zhengjiantype'];
+			$members[$i]['zhengjianhaoma'] = $val['zhengjianhaoma'];
 			$members[$i]['price'] = $val['price'];
 			$members[$i]['num'] = $val['num'];
 			$j = $i;
