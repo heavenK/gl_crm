@@ -127,6 +127,69 @@ class IndexAction extends Action {
 		$this->display();
 	}
 
+	public function export_members(){
+		
+		if(!$_SESSION["authenticated_user_id"])	$this->error('请先登录',SUGARCRM.'index.php');
+		header("Content-type:application/vnd.ms-excel");
+		header("Content-Disposition:attachment;filename=data.xls");
+		
+		
+		
+		$Youke = M('Datacd','myerp_','DB_CONNECT2');
+		
+		$where['telnum'] = array('BETWEEN',array('13000000000','19000000000'));
+		
+		$infos = $Youke->where($where)->order("telnum desc")->select();
+		
+		
+		
+		foreach($infos as $key => $val){
+			if(!preg_match("/^1\d{2}\d{8}$/",$val['telnum'])) continue; 
+			$youke[$val['telnum']]['name'] = $val['name'];
+			$youke[$val['telnum']]['sex'] = $val['sex'];
+			$youke[$val['telnum']]['zhengjiantype'] = $val['zhengjiantype'];
+			$youke[$val['telnum']]['zhengjianhaoma'] = $val['zhengjianhaoma'];
+			if($youke[$val['telnum']]['dingdanID'] == '') {
+				$youke[$val['telnum']]['dingdanID'] = $val['dingdanID'];
+				$youke[$val['telnum']]['price'] = $val['price'];
+				$youke[$val['telnum']]['num']++;
+			}
+			elseif(strstr($youke[$val['telnum']]['dingdanID'] , $val['dingdanID'])) continue;
+			else {
+				$youke[$val['telnum']]['dingdanID'] .= ','.$val['dingdanID'];
+				$youke[$val['telnum']]['price'] += $val['price'];
+				$youke[$val['telnum']]['num']++;
+			}
+		}
+		
+		
+		$i = 0;
+		foreach($youke as $key => $val){
+			$members[$i]['telnum'] = $key;
+			$members[$i]['dingdanID'] = $val['dingdanID'];
+			$members[$i]['name'] = $val['name'];
+			$members[$i]['sex'] = $val['sex'];
+			$members[$i]['zhengjiantype'] = $val['zhengjiantype'];
+			$members[$i]['zhengjianhaoma'] = $val['zhengjianhaoma'];
+			$members[$i]['price'] = $val['price'];
+			$members[$i]['num'] = $val['num'];
+			$j = $i;
+			
+			/*while($j > 0 && $members[$j]['num'] > $members[$j-1]['num'] ) {
+				$mid = $members[$j];
+				$members[$j] = $members[$j-1];	
+				$members[$j-1] = $mid;
+				$j--;
+				
+			}*/
+			$i++;
+		}
+		
+		$this->assign('members',$members);
+		$this->display();
+	}
+
+
 	public function sendMes(){
 		
 		if(!$_SESSION["authenticated_user_id"])	$this->error('请先登录',SUGARCRM.'index.php');

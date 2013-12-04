@@ -1,0 +1,31 @@
+<extend name="base" />
+
+<block name="title"><title><{$account['name']}></title></block>
+
+<block name="links"></block>
+
+<block name="content">
+<style>
+	.detail tr td	{border-bottom: 1px solid;padding: 5px 6px 5px 6px; vertical-align: top;border-color: #cbdae6;color: #000000; font-size:12px;}
+	.name	{ background-color:#f6f6f6; border-color:#CBDAE6; text-align: right;}
+</style>
+
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="display" id="example">
+    	<thead>
+            <tr>
+                <th width="10%" align="center"><input type="checkbox" id="selectAll"/></th><th width="10%" class="name">姓名</th><th width="10%">电话号码</th><th width="10%">性别</th><th width="10%">证件类型</th><th width="20%">证件号</th><th width="10%" class="name">出行次数</th><th id="order_fee" width="10%">总消费</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="members" id="member">
+            <tr>
+                <td width="10%" align="center"><input type="checkbox" class="check" name="telnum[]" value="<{$member['telnum']}>"/></td><td width="10%" class="name"><{$member['name']}></td><td width="10%"><a href="__APP__/Index/index/num/<{$member['telnum']}>" target="_blank"><{$member['telnum']}></a></td><td width="10%"><{$member['sex']}></td><td width="10%"><{$member['zhengjiantype']}></td><td width="20%"><{$member['zhengjianhaoma']}></td><td width="10%" class="name"><{$member['num']}></td><td class="fee" width="10%"><{$member['price']}></td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+</block>
+
+<block name="footer"></block>
