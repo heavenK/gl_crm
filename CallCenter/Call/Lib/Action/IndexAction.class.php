@@ -57,20 +57,20 @@ class IndexAction extends Action {
 			$this->assign('xianlus',$xianlus);
 		}
 		
-		
+		/*
 		$Cdr = M('Cdr','','DB_CONNECT3');
 
 		$where['src'] = $_REQUEST['num'];
 		
 		$cdr_sum = $Cdr->where($where)->count();
 		$cdr = $Cdr->where($where)->order("calldate desc")->limit(0,10)->select();
-
+*/
 		$this->assign('account',$account);
 		
 		
 		
-		$this->assign('cdr_sum',$cdr_sum);
-		$this->assign('cdr',$cdr);
+		//$this->assign('cdr_sum',$cdr_sum);
+		//$this->assign('cdr',$cdr);
 		$this->display();
 	}
 
