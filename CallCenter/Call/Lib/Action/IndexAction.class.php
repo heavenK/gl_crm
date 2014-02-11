@@ -49,7 +49,8 @@ class IndexAction extends Action {
 		$wheres['chanpinID']  = array('IN', $dingdanID);
 		
 		$xianlu_count = $Xianlu->where($wheres)->order("chanpinID desc")->count();
-		$xianlus = $Xianlu->where($wheres)->order("chanpinID desc")->limit(0,10)->select();
+		dump($Xianlu);
+		//$xianlus = $Xianlu->where($wheres)->order("chanpinID desc")->limit(0,10)->select();
 		
 		
 		
