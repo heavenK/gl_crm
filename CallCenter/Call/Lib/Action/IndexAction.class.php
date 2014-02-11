@@ -44,14 +44,17 @@ class IndexAction extends Action {
 			$dingdanID .= ','.$val['dingdanID'];
 		}
 		
-		$Xianlu = M('chanpin_dingdan','myerpview_','DB_CONNECT2');
+		
 		
 		if($dingdanID){
+			$Xianlu = M('chanpin_dingdan','myerpview_','DB_CONNECT2');
 			$wheres['chanpinID']  = array('IN', $dingdanID);
 			
 			$xianlu_count = $Xianlu->where($wheres)->order("chanpinID desc")->count();
 			//dump($Xianlu);
 			$xianlus = $Xianlu->where($wheres)->order("chanpinID desc")->limit(0,10)->select();
+			$this->assign('xianlu_count',$xianlu_count);
+			$this->assign('xianlus',$xianlus);
 		}
 		
 		
@@ -64,8 +67,8 @@ class IndexAction extends Action {
 
 		$this->assign('account',$account);
 		
-		$this->assign('xianlu_count',$xianlu_count);
-		$this->assign('xianlus',$xianlus);
+		
+		
 		$this->assign('cdr_sum',$cdr_sum);
 		$this->assign('cdr',$cdr);
 		$this->display();
