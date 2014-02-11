@@ -46,12 +46,13 @@ class IndexAction extends Action {
 		
 		$Xianlu = M('chanpin_dingdan','myerpview_','DB_CONNECT2');
 		
-		$wheres['chanpinID']  = array('IN', $dingdanID);
-		
-		$xianlu_count = $Xianlu->where($wheres)->order("chanpinID desc")->count();
-		dump($Xianlu);
-		//$xianlus = $Xianlu->where($wheres)->order("chanpinID desc")->limit(0,10)->select();
-		
+		if($dingdanID){
+			$wheres['chanpinID']  = array('IN', $dingdanID);
+			
+			$xianlu_count = $Xianlu->where($wheres)->order("chanpinID desc")->count();
+			//dump($Xianlu);
+			$xianlus = $Xianlu->where($wheres)->order("chanpinID desc")->limit(0,10)->select();
+		}
 		
 		
 		$Cdr = M('Cdr','','DB_CONNECT3');
