@@ -9,15 +9,22 @@ class IndexAction extends Action {
 		$where['deleted'] = 0;
 		$account = $Account->where($where)->order("id desc")->find();
 
+		if($account)	{
+			$account_edit_url = SUGARCRM."index.php?module=Accounts&action=DetailView&return_module=Accounts&return_action=index&record=".$account['id'];	
+			$this->assign('account_edit_url',$account_edit_url);
+		}
 		if(!$account){
 			$Leads = M("Leads");
 
-			$where['phone_work'] = array('LIKE','%'.$_REQUEST['num'].'%');
+			$where['phone_mobile'] = array('LIKE','%'.$_REQUEST['num'].'%');
 			$where['deleted'] = 0;
 			$leads = $Leads->where($where)->order("id desc")->find();
 			
 			if($leads)	$conver_url = SUGARCRM."index.php?module=Leads&action=ConvertLead&record=".$leads['id'];
 			
+			if($leads)	$leads_edit_url = SUGARCRM."index.php?module=Leads&action=DetailView&return_module=Leads&return_action=DetailView&record=".$leads['id'];
+			
+			$this->assign('leads_edit_url',$leads_edit_url);
 			$this->assign('conver_url',$conver_url);
 			$this->assign('leads',$leads);
 		}
